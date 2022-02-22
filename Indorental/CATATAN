@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Konfirmasi Pesanan</title>
+</head>
+<body>
+	<form action="" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="<?= $data["id_booking"]; ?>">
+		<?php foreach ($data as $baris) ?>
+		<!-- No. Pemesanan -->
+		<p> No. pemesanan : <?= $baris["no_pemesanan"]?> </p>	
+
+		<!-- Nama mobil - Jenis mobil -->
+		<p>Jenis mobil : <?= $baris["jenis"]?>
+		<p>Nama mobil : <?= $baris["nama_mobil"]?></p>
+		<!-- Transisi mobil -->
+		<p> Transisi matic : <?= $baris["transisi_matic"]; ?></p>
+		<!-- Waktu pinjam  dan waktu kembali -->
+		<p> Waktu pinjam : <?= $baris["tgl_pinjam"]; ?></p>
+		<p> Waktu kembali : <?= $baris["tgl_kembali"]; ?></p>
+		<!-- Nomor yang bisa dihubungi -->
+		<p> Nomor Whatsapp yang bisa dihubungi : <?= $baris["no_WA"] ?></p>
+		<!-- Metode pengambilan -->
+		<p> Pengambilan : <?= $baris["pengambilan"] ?></p>
+		<!-- Biaya yang ditangguhkan -->
+		<p> Kalkulasi biaya yang ditangguhkan : <?= $baris["biaya"] ?></p>
+	<? endforeach; ?>
+	<div class="form-check">
+		<input class="form-check-input" type="radio" name="validasi1" id="Dikonfirmasi" value="Dikonfirmasi">
+		<label class="form-check-label" for="Dikonfirmasi" checked>
+			Dikonfirmasi
+		</label>
+	</div>
+
+	<div class="form-check">
+		<input class="form-check-input" type="radio" name="validasi2" id="Batal" value="Batal">
+		<label class="form-check-label" for="Batal">
+			Batal
+		</label>
+	</div>   
+	<p>
+		<button type="submit" name="submit">Konfirmasi status pesanan</button>
+	</p>
+</form>
+</body>
+</html>
+
+
+
+if (isset($_POST["submit"])) {
+  if (strtotime($_POST["waktu_pinjam"]) < strtotime("+1 day", strtotime("waktu_pinjam"))) {
+    echo "<script>
+    alert('Waktu yang anda masukkan salah! Peminjaman terdekat maksimal H+1 dari hari ini!');
+    document.location.href = 'booking.php';
+    </script>";
+
+    return false;
+  }
+}
+
+if (isset($_POST["submit"])) {
+  if (strtotime($_POST["waktu_kembali"]) < (strtotime($_POST["waktu_kembali"]))) {
+    echo "<script>
+    alert('Waktu yang anda masukkan salah! Masukkan waktu kembali yang benar!');
+    document.location.href = 'booking.php';
+    </script>";
+
+    return false;
+  }
+}
+?>
